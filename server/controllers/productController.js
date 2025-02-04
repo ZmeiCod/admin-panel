@@ -56,7 +56,7 @@ class productController {
 
     products = await Product.findAndCountAll({
       where: whereConditions,
-      include: [{ model: ProductInfo, as: "info" }], // Добавляем include для получения информации
+      include: [{ model: ProductInfo, as: "info" }],
     });
 
     return res.json(products);

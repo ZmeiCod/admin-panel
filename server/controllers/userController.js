@@ -11,6 +11,9 @@ const generateJwt = (id, email, role) => {
     )
 }
 
+// токен авторизации действует 24 часа, после этого времени, нужно снова войти в систему
+// Регистрацию на фронте я вырезал, по вопросам безопаности 
+
 class userController {
   async registration(req, res, next) {
     const {email, password, role} = req.body

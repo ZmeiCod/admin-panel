@@ -10,7 +10,6 @@ class additionController {
     const { article, image, price, productId } = req.body;
     const { img } = req.files;
 
-    // Генерируем имя файла для изображения
     let fileName = uuid() + ".jpg";
     img.mv(path.resolve(__dirname, '..', 'static', fileName));
 
