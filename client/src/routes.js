@@ -4,7 +4,8 @@ import Auth from "./pages/Auth";
 import ProductPage from "./pages/ProductPage";
 import Shop from "./pages/Shop";
 
-// 
+// Все основные страницы доступны только после авторизации
+// Если человек не авторизован и у него нет jwt ключа, то его выкинет на страницу авторизации
 export const authRoutes = [
     {
         path: ADMIN_ROUTE,
@@ -21,7 +22,6 @@ export const authRoutes = [
 
 ]
 
-//
 export const publicRoutes = [
     {
         path: LOGIN_ROUTE,

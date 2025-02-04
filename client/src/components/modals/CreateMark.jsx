@@ -13,6 +13,8 @@ const CreateMark= ({show, onHide}) => {
         })
     }
 
+    // Просто берем название и создаем его в бд
+
     return (
         <Modal
             show={show}

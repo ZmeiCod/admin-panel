@@ -13,6 +13,8 @@ const Auth = observer(() => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // По клику проверяем пароль и почту, сохраненую в бд
+
   const click = async () => {
     try {
       let data = await login(email, password);

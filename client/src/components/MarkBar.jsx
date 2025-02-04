@@ -7,6 +7,9 @@ import '../index.css'
 const MarkBar = observer(() => {
     const { product } = useContext(Context);
 
+    // через мэп отрисовываем все метки
+    // и выделяем активную
+
     return (
         <Row className="d-flex flex-wrap">
             {product.marks.map(mark => (

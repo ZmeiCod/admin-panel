@@ -11,6 +11,8 @@ const App = observer(() => {
 
   const {user} = useContext(Context)
   const [loading, setLoading] = useState(true)
+  
+  // Пока идет загрузка, мы будет крутиться спинер
 
   useEffect(() => {
       check().then(data => {

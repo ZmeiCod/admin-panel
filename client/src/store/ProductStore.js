@@ -1,66 +1,68 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable } from "mobx"; // Импортируем функцию makeAutoObservable из MobX
 
+// Определяем класс ProductStore для управления состоянием продукта
 export default class ProductStore {
   constructor() {
-    this._marks = [];
-    this._categories = [];
-    this._products = [];
+    // Инициализируем массивы для характеристик товара
+    this._marks = []; // Массив марок
+    this._categories = []; // Массив категорий
+    this._products = []; // Массив продуктов
 
-    this._selectedCategory = {};
-    this._selectedMark = {};
-    this._page = 1;
-    this._totalCount = 0;
-    this._limit = 3;
+    // Инициализируем выбранные марку и категорию как пустые объекты
+    this._selectedCategory = {}; 
+    this._selectedMark = {}; 
+
+    // Делаем все поля класса наблюдаемыми (reactive)
     makeAutoObservable(this);
   }
 
+  // Метод для установки массива марок
   setMarks(marks) {
     this._marks = marks;
   }
+
+  // Метод для установки массива категорий
   setCategories(categories) {
     this._categories = categories;
   }
+
+  // Метод для установки массива продуктов
   setProducts(products) {
     this._products = products;
   }
 
+  // Метод для установки выбранной марки
   setSelectedMark(mark) {
-    this.setPage(1);
     this._selectedMark = mark;
   }
+
+  // Метод для установки выбранной категории
   setSelectedCategory(category) {
-    this.setPage(1);
     this._selectedCategory = category;
   }
-  setPage(page) {
-    this._page = page;
-  }
-  setTotalCount(count) {
-    this._totalCount = count;
-  }
 
+  // Геттер для получения массива марок
   get marks() {
     return this._marks;
   }
+
+  // Геттер для получения массива категорий
   get categories() {
     return this._categories;
   }
+
+  // Геттер для получения массива продуктов
   get products() {
     return this._products;
   }
+
+  // Геттер для получения выбранной марки
   get selectedMark() {
     return this._selectedMark;
   }
+
+  // Геттер для получения выбранной категории
   get selectedCategory() {
     return this._selectedCategory;
-  }
-  get totalCount() {
-    return this._totalCount;
-  }
-  get page() {
-    return this._page;
-  }
-  get limit() {
-    return this._limit;
   }
 }

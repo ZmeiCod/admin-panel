@@ -5,6 +5,10 @@ import ListGroup from "react-bootstrap/ListGroup";
 
 const CategoryBar = observer(() => {
     const {product} = useContext(Context)
+
+    // через мэп отрисовываем все категории
+    // и выделяем активную
+
     return (
         <ListGroup>
             {product.categories.map(category =>

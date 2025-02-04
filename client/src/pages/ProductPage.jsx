@@ -8,6 +8,11 @@ const ProductPage = () => {
   const [ product, setProduct] = useState({info:[]})
   const {id} = useParams()
 
+  // Берем инфу из бд и передаем её для отрисовки
+
+  // Описания сейчас не отрисовываются. У них отдельная таблица
+  // Я потом перепешу, чтобы они были сразу с продуктом, а не присваивались к его айди
+
   useEffect(()=> {
     fetchOneProduct(id).then(data => setProduct(data))
   }, [])

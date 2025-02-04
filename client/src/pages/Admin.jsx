@@ -10,6 +10,8 @@ const Admin = () => {
     const [productVisible, setProductVisible] = useState(false)
     const [markVisible, setMarkVisible] = useState(false)
 
+    // Вызов функций при клике, о каждой подробно в конф. файлах
+
     return (
         <div>
           <NavBar></NavBar>

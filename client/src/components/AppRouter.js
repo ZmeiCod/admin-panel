@@ -5,6 +5,8 @@ import { LOGIN_ROUTE } from "../utils/consts";
 import { Context } from "../index";
 import { observer } from "mobx-react-lite";
 
+// Если пользователь авторизирован, то ему доступны все страницы, в ином случае только редирект на авторизацию
+
 const AppRouter = observer(() => {
     const { user } = useContext(Context);
     return (

@@ -12,12 +12,21 @@ const CreateProduct = observer(({ show, onHide }) => {
   const [image, setImage] = useState(null);
   const [article, setArticle] = useState(0);
   const [price, setPrice] = useState(0);
-  const [info, setInfo] = useState(""); // состояние для описания
+  const [info, setInfo] = useState("");
+
+  // чтобы все метки и категории правильно отрисовывались, мы снова их парсим из бд
 
   useEffect(() => {
     fetchMarks().then(data => product.setMarks(data))
     fetchCategoties().then(data => product.setCategories(data))
 }, [])
+
+  // ниже мы отправляем полученные данные из формы в бд
+  // протестировано, но иногда выдает ошибку 404 "интовое поле андефайнд"
+  // в ходе эксперемента, удалось понять, что если метка не выбрана ошибка появляется
+  // потом буду фиксить
+
+  // плюс сейчас не передается описание для товара
 
   const addProduct = () => {
     const formData = new FormData();
@@ -27,7 +36,7 @@ const CreateProduct = observer(({ show, onHide }) => {
     formData.append("price", `${price}`);
     formData.append("categoryId", product.selectedCategory.id);
     formData.append("markId", product.selectedMark.id);
-    // formData.append("info", JSON.stringify(info)); // отправляем описание
+    // formData.append("info", JSON.stringify(info));
 
     createProduct(formData).then((data) => onHide());
   };
@@ -42,7 +51,7 @@ const CreateProduct = observer(({ show, onHide }) => {
       <Modal.Body>
         <Form>
           <Form.Control
-            onChange={(e) => setName(e.target.value)} // исправлено: правильное извлечение значения
+            onChange={(e) => setName(e.target.value)}
             className="mt-3"
             placeholder="Введите название блюда"
           />
@@ -52,13 +61,13 @@ const CreateProduct = observer(({ show, onHide }) => {
             type="file"
           />
           <Form.Control
-            onChange={(e) => setArticle(Number(e.target.value))} // исправлено: правильное извлечение значения
+            onChange={(e) => setArticle(Number(e.target.value))}
             className="mt-3"
             type="number"
             placeholder="Введите артикул"
           />
           <Form.Control
-            onChange={(e) => setPrice(Number(e.target.value))} // исправлено: правильное извлечение значения
+            onChange={(e) => setPrice(Number(e.target.value))}
             className="mt-3"
             type="number"
             placeholder="Введите цену"
@@ -98,7 +107,7 @@ const CreateProduct = observer(({ show, onHide }) => {
             id="exampleFormControlTextarea1"
             rows="3"
             placeholder="Добавить описание"
-            onChange={(e) => setInfo(e.target.value)} // сохраняем описание в состоянии
+            onChange={(e) => setInfo(e.target.value)}
           />
         </Form>
       </Modal.Body>
