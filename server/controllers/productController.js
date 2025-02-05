@@ -7,7 +7,7 @@ class productController {
   async create(req, res, next) {
     try {
       // Получаем данные из запроса
-      let { name, price, categoryId, markId, article, info } = req.body;
+      let { name, price, categoryId, markId, article, description } = req.body;
       const { image } = req.files;
 
       // Генерируем имя файла для изображения
@@ -22,18 +22,19 @@ class productController {
         markId,
         image: fileName,
         article,
+        description
       });
 
-      // Если есть дополнительная информация, сохраняем ее
-      if (info) {
-        info = JSON.parse(info);
-        info.forEach((i) =>
-          ProductInfo.create({
-            description: i.description,
-            productId: product.id,
-          })
-        );
-      }
+      // // Если есть дополнительная информация, сохраняем ее
+      // if (info) {
+      //   info = JSON.parse(info);
+      //   info.forEach((i) =>
+      //     ProductInfo.create({
+      //       description: i.description,
+      //       productId: product.id,
+      //     })
+      //   );
+      // }
 
       return res.json(product);
     } catch (e) {
@@ -56,7 +57,7 @@ class productController {
 
     products = await Product.findAndCountAll({
       where: whereConditions,
-      include: [{ model: ProductInfo, as: "info" }],
+      // include: [{ model: ProductInfo, as: "info" }],
     });
 
     return res.json(products);
@@ -66,7 +67,7 @@ class productController {
     const { id } = req.params;
     const product = await Product.findOne({
       where: { id },
-      include: [{ model: ProductInfo, as: "info" }],
+      // include: [{ model: ProductInfo, as: "info" }],
     });
     return res.json(product);
   }
