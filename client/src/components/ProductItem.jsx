@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { PRODUCT_ROUTE } from "../utils/consts";
 import "../index.css";
 
-// берем данные из масива, потом отрисовываем их, но ключом айди
+// берем данные из масива, потом отрисовываем их, но с ключом айди
 
 const ProductItem = ({ product }) => {
   const history = useNavigate();

@@ -40,10 +40,10 @@ const ProductPage = () => {
             </div>
             <div>
               <h3
-                key={product.info.id}
+                key={product.id}
                 style={{ textAlign: "justify", color: "#ADADAD" }}
               >
-                {product.info.description}
+                {product.description}
               </h3>
             </div>
             <Row xs="auto" className="m-3">

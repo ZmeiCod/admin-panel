@@ -12,7 +12,7 @@ const CreateProduct = observer(({ show, onHide }) => {
   const [image, setImage] = useState(null);
   const [article, setArticle] = useState(0);
   const [price, setPrice] = useState(0);
-  const [info, setInfo] = useState("");
+  const [description, setDescription] = useState("");
 
   // чтобы все метки и категории правильно отрисовывались, мы снова их парсим из бд
 
@@ -36,8 +36,8 @@ const CreateProduct = observer(({ show, onHide }) => {
     formData.append("price", `${price}`);
     formData.append("categoryId", product.selectedCategory.id);
     formData.append("markId", product.selectedMark.id);
-    // formData.append("info", JSON.stringify(info));
-
+    formData.append("description", description);
+    
     createProduct(formData).then((data) => onHide());
   };
 
@@ -107,7 +107,7 @@ const CreateProduct = observer(({ show, onHide }) => {
             id="exampleFormControlTextarea1"
             rows="3"
             placeholder="Добавить описание"
-            onChange={(e) => setInfo(e.target.value)}
+            onChange={(e) => setDescription(e.target.value)}
           />
         </Form>
       </Modal.Body>
