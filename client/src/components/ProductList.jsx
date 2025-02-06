@@ -7,8 +7,6 @@ import ProductItem from "./ProductItem";
 const ProductList = observer(() => {
     const {product} = useContext(Context)
 
-    // Отрисовываем через мэп все товары из бд
-
     return (
         <Row className="">
             {product.products.map(product =>

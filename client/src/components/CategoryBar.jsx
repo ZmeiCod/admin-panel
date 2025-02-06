@@ -1,19 +1,23 @@
-import React, {useContext} from 'react';
-import {observer} from "mobx-react-lite";
-import {Context} from "../index";
+// categoryBar.jsx
+import React, { useContext } from 'react';
+import { observer } from "mobx-react-lite";
+import { Context } from "../index";
 import ListGroup from "react-bootstrap/ListGroup";
 
 const CategoryBar = observer(() => {
-    const {product} = useContext(Context)
-
-    // через мэп отрисовываем все категории
-    // и выделяем активную
+    const { product } = useContext(Context);
 
     return (
         <ListGroup>
+            <ListGroup.Item 
+                style={{ cursor: 'pointer' }} 
+                onClick={() => product.setSelectedCategory({})}
+            >
+                Все
+            </ListGroup.Item>
             {product.categories.map(category =>
                 <ListGroup.Item
-                    style={{cursor: 'pointer'}}
+                    style={{ cursor: 'pointer' }}
                     active={category.id === product.selectedCategory.id}
                     onClick={() => product.setSelectedCategory(category)}
                     key={category.id}

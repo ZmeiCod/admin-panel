@@ -1,21 +1,31 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
-import { Container, Button, Col, Image, Row  } from "react-bootstrap";
+import { Container, Button, Col, Image, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import { fetchOneProduct } from "../http/productApi";
+import { fetchOneProduct, deleteProduct } from "../http/productApi";
+import { observer } from "mobx-react-lite";
+import { SHOP_ROUTE } from "../utils/consts";
 
-const ProductPage = () => {
-  const [ product, setProduct] = useState({info:[]})
-  const {id} = useParams()
+const ProductPage = observer((onHide) => {
+  const [product, setProduct] = useState({ info: [] });
+  const { id } = useParams();
+  const history = useNavigate();
 
-  // Берем инфу из бд и передаем её для отрисовки
+  const delProduct = () => {
+    deleteProduct(id)
+      .then((data) => {
+        console.log("Продукт удален");
+        history(SHOP_ROUTE);
+      })
+      .catch((error) => {
+        console.error("Ошибка при удалении продукта: ", error);
+      });
+  };
 
-  // Описания сейчас не отрисовываются. У них отдельная таблица
-  // Я потом перепешу, чтобы они были сразу с продуктом, а не присваивались к его айди
-
-  useEffect(()=> {
-    fetchOneProduct(id).then(data => setProduct(data))
-  }, [])
+  useEffect(() => {
+    fetchOneProduct(id).then((data) => setProduct(data));
+  }, []);
 
   return (
     <div>
@@ -47,14 +57,21 @@ const ProductPage = () => {
               </h3>
             </div>
             <Row xs="auto" className="m-3">
-              <Button className="product-page-btn">Изменить (Разработка)</Button>
-              <Button className="product-page-btn-delete ms-5">Удалить (Разработка)</Button>
+              <Button className="product-page-btn">
+                Изменить (В разработке)
+              </Button>
+              <Button
+                className="product-page-btn-delete ms-5"
+                onClick={delProduct}
+              >
+                Удалить
+              </Button>
             </Row>
           </Col>
         </Row>
       </Container>
     </div>
   );
-};
+});
 
 export default ProductPage;

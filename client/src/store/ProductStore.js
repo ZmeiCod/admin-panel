@@ -1,44 +1,41 @@
-import { makeAutoObservable } from "mobx"; // Импортируем функцию makeAutoObservable из MobX
+import { makeAutoObservable } from "mobx";
 
-// Определяем класс ProductStore для управления состоянием продукта
 export default class ProductStore {
   constructor() {
-    // Инициализируем массивы для характеристик товара
-    this._marks = []; // Массив марок
-    this._categories = []; // Массив категорий
-    this._products = []; // Массив продуктов
+    this._marks = [];
+    this._categories = []; 
+    this._products = []; 
 
-    // Инициализируем выбранные марку и категорию как пустые объекты
     this._selectedCategory = {}; 
     this._selectedMark = {}; 
 
-    // Делаем все поля класса наблюдаемыми (reactive)
     makeAutoObservable(this);
   }
 
-  // Метод для установки массива марок
+
   setMarks(marks) {
     this._marks = marks;
   }
 
-  // Метод для установки массива категорий
   setCategories(categories) {
     this._categories = categories;
   }
 
-  // Метод для установки массива продуктов
   setProducts(products) {
     this._products = products;
   }
 
-  // Метод для установки выбранной марки
   setSelectedMark(mark) {
     this._selectedMark = mark;
   }
 
-  // Метод для установки выбранной категории
   setSelectedCategory(category) {
     this._selectedCategory = category;
+        if (category.id) {
+            this.setProducts(this._products.filter(product => product.categoryId === category.id));
+        } else {
+            this.setProducts(this._products);
+        }
   }
 
   // Геттер для получения массива марок

@@ -1,7 +1,4 @@
 import { $authHost, $host } from "./index";
-
-// подключаюсь к нужной таблице из бд
-
 export const createMark = async (mark) => {
   const { data } = await $authHost.post("api/mark", mark);
   return data;
@@ -27,7 +24,10 @@ export const createProduct = async (product) => {
   return data;
 };
 
-// для пагинации на странице, добавляю ещё айди категории
+export const deleteProduct = async (id) => {
+  const { data } = await $authHost.delete(`api/product/${id}`);
+  return data;
+};
 
 export const fetchProducts = async (categoryId) => {
   const { data } = await $host.get("api/product", {

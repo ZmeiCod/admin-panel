@@ -1,9 +1,13 @@
-import React, { useContext, useState, useEffect} from "react"; 
+import React, { useContext, useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import { Button, Dropdown, Form } from "react-bootstrap";
 import { Context } from "../../index";
 import { observer } from "mobx-react-lite";
-import { createProduct, fetchCategoties, fetchMarks } from "../../http/productApi";
+import {
+  createProduct,
+  fetchCategoties,
+  fetchMarks,
+} from "../../http/productApi";
 
 const CreateProduct = observer(({ show, onHide }) => {
   const product = useContext(Context).product;
@@ -13,20 +17,12 @@ const CreateProduct = observer(({ show, onHide }) => {
   const [article, setArticle] = useState(0);
   const [price, setPrice] = useState(0);
   const [description, setDescription] = useState("");
-
-  // чтобы все метки и категории правильно отрисовывались, мы снова их парсим из бд
+  const [weight, setWeight] = useState("");
 
   useEffect(() => {
-    fetchMarks().then(data => product.setMarks(data))
-    fetchCategoties().then(data => product.setCategories(data))
-}, [])
-
-  // ниже мы отправляем полученные данные из формы в бд
-  // протестировано, но иногда выдает ошибку 404 "интовое поле андефайнд"
-  // в ходе эксперемента, удалось понять, что если метка не выбрана ошибка появляется
-  // потом буду фиксить
-
-  // плюс сейчас не передается описание для товара
+    fetchMarks().then((data) => product.setMarks(data));
+    fetchCategoties().then((data) => product.setCategories(data));
+  }, []);
 
   const addProduct = () => {
     const formData = new FormData();
@@ -37,7 +33,8 @@ const CreateProduct = observer(({ show, onHide }) => {
     formData.append("categoryId", product.selectedCategory.id);
     formData.append("markId", product.selectedMark.id);
     formData.append("description", description);
-    
+    formData.append("weight", weight);
+
     createProduct(formData).then((data) => onHide());
   };
 
@@ -54,6 +51,12 @@ const CreateProduct = observer(({ show, onHide }) => {
             onChange={(e) => setName(e.target.value)}
             className="mt-3"
             placeholder="Введите название блюда"
+          />
+          <Form.Control
+            onChange={(e) => setWeight(e.target.value)}
+            className="mt-3"
+            type="number"
+            placeholder="Введите вес блюда"
           />
           <Form.Control
             onChange={(e) => setImage(e.target.files[0])}
@@ -102,7 +105,7 @@ const CreateProduct = observer(({ show, onHide }) => {
               ))}
             </Dropdown.Menu>
           </Dropdown>
-          <textarea 
+          <textarea
             className="mt-3 form-control"
             id="exampleFormControlTextarea1"
             rows="3"

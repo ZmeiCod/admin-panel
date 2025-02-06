@@ -12,8 +12,6 @@ import { Context } from "../index";
 const Shop = observer(() => {
   const { product } = useContext(Context);
 
-  // Сначала мы вызываем отрисовку всех продуктов, категорий и меток
-
   useEffect(() => {
     fetchCategoties().then((data) => product.setCategories(data));
     fetchMarks().then((data) => product.setMarks(data));
@@ -22,14 +20,11 @@ const Shop = observer(() => {
     });
   }, []);
 
-  // Пагинация при нажатии на категорию
-  // Пагинация для меток будет позже
-
   useEffect(() => {
     fetchProducts(product.selectedCategory.id).then((data) => {
       product.setProducts(data.rows);
     });
-  }, [product.selectedCategory]);
+  }, []);
 
   return (
     <div>

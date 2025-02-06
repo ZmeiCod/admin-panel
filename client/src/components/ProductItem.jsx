@@ -5,8 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { PRODUCT_ROUTE } from "../utils/consts";
 import "../index.css";
 
-// берем данные из масива, потом отрисовываем их, но с ключом айди
-
 const ProductItem = ({ product }) => {
   const history = useNavigate();
   const img = product.image;
@@ -15,11 +13,10 @@ const ProductItem = ({ product }) => {
       className={"mt-4"}
       onClick={() => history(PRODUCT_ROUTE + "/" + product.id)}
     >
-      <Card className="product-item-image" style={{ width: 150, cursor: "pointer" }}>
+      <Card className="product-item-image" style={{ width: 200, cursor: "pointer" }}>
         <Image
           className="product-item-image"
-          width={148}
-          height={150}
+          style={{height: 150}}
           src={process.env.REACT_APP_API_URL + img}
         />
         <div className="d-flex justify-content-between align-items-center">
