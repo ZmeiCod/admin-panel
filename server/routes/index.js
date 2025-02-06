@@ -7,8 +7,6 @@ const categoryRouter = require('./categoryRouter')
 const markRouter = require('./markRouter')
 const additionRouter = require('./additionRouter')
 
-// Все роуты взаимодействия выведены в 1 файл, для удобства
-
 router.use('/user', userRouter)
 router.use('/mark', markRouter)
 router.use('/category', categoryRouter)

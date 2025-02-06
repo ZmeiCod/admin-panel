@@ -22,7 +22,7 @@ const Product = sequelize.define("product", {
   name: { type: DataTypes.STRING, unique: true, allowNull: false },
   price: { type: DataTypes.INTEGER, allowNull: false },
   description: {type: DataTypes.STRING, allowNull: false},
-  // weight: { type: DataTypes.INTEGER, allowNull: false }, Вес блюда
+  weight: { type: DataTypes.INTEGER, allowNull: false }, // добавил
 });
 
 const Addition = sequelize.define("addition", {

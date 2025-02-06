@@ -1,20 +1,19 @@
 const { v4: uuid } = require("uuid");
 const path = require("path");
+const fs = require("fs");
 const { Product, ProductInfo, Addition } = require("../models/models");
 const ApiError = require("../error/ApiError");
 
 class productController {
   async create(req, res, next) {
     try {
-      // Получаем данные из запроса
-      let { name, price, categoryId, markId, article, description } = req.body;
+      let { name, price, categoryId, markId, article, description, weight } =
+        req.body;
       const { image } = req.files;
 
-      // Генерируем имя файла для изображения
       let fileName = uuid() + ".jpg";
       image.mv(path.resolve(__dirname, "..", "static", fileName));
 
-      // Создаем товар
       const product = await Product.create({
         name,
         price,
@@ -22,19 +21,9 @@ class productController {
         markId,
         image: fileName,
         article,
-        description
+        description,
+        weight,
       });
-
-      // // Если есть дополнительная информация, сохраняем ее
-      // if (info) {
-      //   info = JSON.parse(info);
-      //   info.forEach((i) =>
-      //     ProductInfo.create({
-      //       description: i.description,
-      //       productId: product.id,
-      //     })
-      //   );
-      // }
 
       return res.json(product);
     } catch (e) {
@@ -57,7 +46,6 @@ class productController {
 
     products = await Product.findAndCountAll({
       where: whereConditions,
-      // include: [{ model: ProductInfo, as: "info" }],
     });
 
     return res.json(products);
@@ -67,18 +55,78 @@ class productController {
     const { id } = req.params;
     const product = await Product.findOne({
       where: { id },
-      // include: [{ model: ProductInfo, as: "info" }],
     });
     return res.json(product);
+  }
+
+  async update(req, res) {
+    const { id } = req.params;
+    const {
+      name,
+      price,
+      categoryId,
+      markId,
+      image: fileName,
+      article,
+      description,
+      weight,
+    } = req.body;
+
+    try {
+      const [updated] = await Category.update(
+        {
+          name,
+          price,
+          categoryId,
+          markId,
+          image: fileName,
+          article,
+          description,
+          weight,
+        },
+        { where: { id } }
+      );
+
+      if (!updated) {
+        return res.status(404).json({ message: "Продукт не найден" });
+      }
+
+      const updatedCategory = await Category.findOne({ where: { id } });
+      return res.json(updatedCategory);
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
   }
 
   async delete(req, res) {
     const { id } = req.params;
     try {
-      await Product.destroy({ where: { id } });
+      const product = await Product.findOne({ where: { id } });
+      const deletedCount = await Product.destroy({ where: { id } });
+      const imagePath = path.resolve(__dirname, "..", "static", product.image);
+
+      if (!product) {
+        return res.status(404).json({ message: "Продукт не найден" });
+      }
+
+      fs.unlink(imagePath, (err) => {
+        if (err) {
+          console.error("Ошибка при удалении файла: ", err);
+          return res
+            .status(500)
+            .json({ message: "Ошибка при удалении изображения" });
+        }
+
+        console.log("Изображение успешно удалено");
+      });
+
+      if (deletedCount === 0) {
+        return res.status(404).json({ message: "Продукт не найден" });
+      }
       return res.status(204).send();
     } catch (error) {
-      return res.status(500).json({ message: "Ошибка при удалении категории" });
+      console.error(error);
+      return res.status(500).json({ message: "Ошибка при удалении продукта" });
     }
   }
 }
