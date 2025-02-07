@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { Form, Button } from "react-bootstrap";
-import { createCategory } from "../../http/productApi";
+import { createCarousel } from "../../http/productApi";
 
-const CreateCategory = ({ show, onHide }) => {
+const CreateCarousel = ({ show, onHide }) => {
   const [value, setValue] = useState("");
   const [image, setImage] = useState(null);
 
-  const addCategory = () => {
+  const addCarousel = () => {
     const formData = new FormData();
     formData.append("name", value);
     formData.append("image", image);
 
-    createCategory(formData).then((data) => {
+    createCarousel(formData).then((data) => {
       setValue("");
       setImage(null);
       onHide();
@@ -23,7 +23,7 @@ const CreateCategory = ({ show, onHide }) => {
     <Modal show={show} onHide={onHide} centered>
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Добавить категорию
+          Добавить новый слайд
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -31,7 +31,7 @@ const CreateCategory = ({ show, onHide }) => {
           <Form.Control
             value={value}
             onChange={(e) => setValue(e.target.value)}
-            placeholder={"Введите название категории"}
+            placeholder={"Введите название для слайда"}
           />
           <Form.Control
             className="mt-3"
@@ -44,7 +44,7 @@ const CreateCategory = ({ show, onHide }) => {
         <Button className="admin-page-btn" onClick={onHide}>
           Закрыть
         </Button>
-        <Button className="admin-page-btn" onClick={addCategory}>
+        <Button className="admin-page-btn" onClick={addCarousel}>
           Добавить
         </Button>
       </Modal.Footer>
@@ -52,4 +52,4 @@ const CreateCategory = ({ show, onHide }) => {
   );
 };
 
-export default CreateCategory;
+export default CreateCarousel;

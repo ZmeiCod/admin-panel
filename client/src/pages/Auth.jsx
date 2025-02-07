@@ -4,16 +4,14 @@ import "../index.css";
 import { login } from "../http/userApi";
 import { observer } from "mobx-react-lite";
 import { Context } from "../index";
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import { SHOP_ROUTE } from "../utils/consts";
 
 const Auth = observer(() => {
   const { user } = useContext(Context);
-  const history = useNavigate()
+  const history = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  // По клику проверяем пароль и почту, сохраненую в бд
 
   const click = async () => {
     try {

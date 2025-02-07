@@ -27,74 +27,73 @@ h3 {
 }
 
 .BTN {
-  color: #DB7611;
-  border: solid 1px #DB7611;
+  color: #db7611;
+  border: solid 1px #db7611;
 }
 
 .BTN:hover {
   color: #000;
-  background-color: #DB7611;
-  border: solid 1px #DB7611;
+  background-color: #db7611;
+  border: solid 1px #db7611;
 }
 
 .BTN:active {
-  background-color: #DB7611;
-  border: solid 1px #DB7611;
+  background-color: #db7611;
+  border: solid 1px #db7611;
 }
 
-.product-page-btn, .product-page-btn-delete{
-  color:#000;
+.product-page-btn,
+.product-page-btn-delete {
+  color: #000;
   background-color: #f1f1f1;
   border: none;
 
   height: 50px;
 }
 
-.product-page-btn:hover{
-  color:#000;
-  background-color: #DB7611;
+.product-page-btn:hover {
+  color: #000;
+  background-color: #db7611;
   border: none;
 }
 
-.product-page-btn-delete:hover{
-  color:#000;
+.product-page-btn-delete:hover {
+  color: #000;
   background-color: red;
   border: none;
 }
 
-
-.admin-page-btn{
-  color: #000;
-  background-color: #f1f1f1;
-  border: solid 1px #DB7611;
+.admin-page-btn {
+  color: #db7611;
+  background-color: #242424;
+  border: none;
 }
 
-.admin-page-btn:hover{
+.admin-page-btn:hover {
   color: #000;
-  background-color: #DB7611;
-  border: solid 1px #DB7611;
+  background-color: #db7611;
+  border: none;
 }
 
-
-.MarkBtn{
+.MarkBtn {
   padding: 10px;
 }
 
 .MarkBtn.active {
   color: #000;
-  background-color: #DB7611 !important;
-  border-color: #DB7611 !important;
+  background-color: #db7611 !important;
+  border-color: #db7611 !important;
 }
 
 .MarkBtn:hover {
   color: #000;
   transition: 0.3s;
-  background-color: #DB7611;
-  border-color: #DB7611;
+  background-color: #db7611;
+  border-color: #db7611;
 }
 
 .form-control-custom:focus {
-  border-color: #DB7611;
+  border-color: #db7611;
   box-shadow: 0 0 0 0.2rem rgba(219, 118, 17, 0.7);
 }
 
@@ -105,21 +104,21 @@ h3 {
   padding-right: 150px;
 }
 
-.list-group{
+.list-group {
   max-width: 160px;
 }
 
 .list-group-item.active {
   color: #000;
-  background-color: #DB7611 !important;
-  border-color: #DB7611 !important;
+  background-color: #db7611 !important;
+  border-color: #db7611 !important;
 }
 
 .list-group-item:hover {
   color: #000;
   transition: 0.3s;
-  background-color: #DB7611;
-  border-color: #DB7611;
+  background-color: #db7611;
+  border-color: #db7611;
 }
 
 .product-item-image {

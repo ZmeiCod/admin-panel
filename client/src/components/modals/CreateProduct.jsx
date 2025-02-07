@@ -5,7 +5,7 @@ import { Context } from "../../index";
 import { observer } from "mobx-react-lite";
 import {
   createProduct,
-  fetchCategoties,
+  fetchCategories,
   fetchMarks,
 } from "../../http/productApi";
 
@@ -21,7 +21,7 @@ const CreateProduct = observer(({ show, onHide }) => {
 
   useEffect(() => {
     fetchMarks().then((data) => product.setMarks(data));
-    fetchCategoties().then((data) => product.setCategories(data));
+    fetchCategories().then((data) => product.setCategories(data));
   }, []);
 
   const addProduct = () => {

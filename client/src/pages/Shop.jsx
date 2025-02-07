@@ -6,25 +6,17 @@ import "../index.css";
 import { observer } from "mobx-react-lite";
 import MarkBar from "../components/MarkBar";
 import ProductList from "../components/ProductList";
-import { fetchCategoties, fetchMarks, fetchProducts } from "../http/productApi";
+import { fetchCategories, fetchMarks } from "../http/productApi";
 import { Context } from "../index";
 
 const Shop = observer(() => {
   const { product } = useContext(Context);
 
   useEffect(() => {
-    fetchCategoties().then((data) => product.setCategories(data));
+    fetchCategories().then((data) => product.setCategories(data));
     fetchMarks().then((data) => product.setMarks(data));
-    fetchProducts(null).then((data) => {
-      product.setProducts(data.rows);
-    });
-  }, []);
-
-  useEffect(() => {
-    fetchProducts(product.selectedCategory.id).then((data) => {
-      product.setProducts(data.rows);
-    });
-  }, []);
+    product.fetchProducts();
+  }, [product]);
 
   return (
     <div>

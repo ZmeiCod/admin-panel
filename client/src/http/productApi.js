@@ -1,4 +1,5 @@
 import { $authHost, $host } from "./index";
+
 export const createMark = async (mark) => {
   const { data } = await $authHost.post("api/mark", mark);
   return data;
@@ -14,7 +15,7 @@ export const createCategory = async (category) => {
   return data;
 };
 
-export const fetchCategoties = async () => {
+export const fetchCategories = async () => {
   const { data } = await $host.get("api/category");
   return data;
 };
@@ -40,5 +41,21 @@ export const fetchProducts = async (categoryId) => {
 
 export const fetchOneProduct = async (id) => {
   const { data } = await $host.get("api/product/" + id);
+  return data;
+};
+
+/////
+export const createCarousel = async (carousel) => {
+  const { data } = await $authHost.post("api/carousel", carousel);
+  return data;
+};
+
+export const fetchCarousels = async () => {
+  const { data } = await $host.get("api/carousel");
+  return data;
+};
+
+export const deleteCarousel = async (id) => {
+  const { data } = await $authHost.delete(`api/carousel/${id}`);
   return data;
 };

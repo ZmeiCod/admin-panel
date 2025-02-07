@@ -13,14 +13,10 @@ const NavBar = observer(() => {
   const { user } = useContext(Context);
   const history = useNavigate();
 
-    // При выходе меняем переменную авторизации на фолс 
-
-    const logOut = () => {
-      user.setUser({})
-      user.setIsAuth(false)
-  }
-
-  // по нажатию на кнопки отрисовываем нужную страницу
+  const logOut = () => {
+    user.setUser({});
+    user.setIsAuth(false);
+  };
 
   return (
     <Navbar bg="dark" variant="dark">
