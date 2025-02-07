@@ -1,7 +1,7 @@
 const { v4: uuid } = require("uuid");
 const path = require("path");
 const fs = require("fs");
-const { Product, ProductInfo, Addition } = require("../models/models");
+const { Product } = require("../models/models");
 const ApiError = require("../error/ApiError");
 
 class productController {

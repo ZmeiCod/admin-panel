@@ -1,9 +1,7 @@
-const uuid = require('uuid')
-const path = require('path');
+const uuid = require("uuid");
+const path = require("path");
 const { Addition } = require("../models/models");
 const ApiError = require("../error/ApiError");
-
-// Файл не доделан, он на будещее, поскольку для пицц будут добавки 
 
 class additionController {
   async create(req, res) {
@@ -11,10 +9,15 @@ class additionController {
     const { img } = req.files;
 
     let fileName = uuid() + ".jpg";
-    img.mv(path.resolve(__dirname, '..', 'static', fileName));
+    img.mv(path.resolve(__dirname, "..", "static", fileName));
 
     try {
-      const addition = await Addition.create({ article, img: fileName, price, productId });
+      const addition = await Addition.create({
+        article,
+        img: fileName,
+        price,
+        productId,
+      });
       return res.status(201).json(addition);
     } catch (error) {
       return res.status(400).json({ message: error.message });
@@ -35,7 +38,10 @@ class additionController {
     const { article, image, price, productId } = req.body;
 
     try {
-      const [updated] = await Addition.update({ article, image, price, productId }, { where: { id } });
+      const [updated] = await Addition.update(
+        { article, image, price, productId },
+        { where: { id } }
+      );
 
       if (!updated) {
         return res.status(404).json({ message: "Добавка не найдена" });
