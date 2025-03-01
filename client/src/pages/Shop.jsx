@@ -4,9 +4,8 @@ import { Col, Container, Row } from "react-bootstrap";
 import CategoryBar from "../components/CategoryBar";
 import "../index.css";
 import { observer } from "mobx-react-lite";
-import MarkBar from "../components/MarkBar";
 import ProductList from "../components/ProductList";
-import { fetchCategories, fetchMarks } from "../http/productApi";
+import { fetchCategories } from "../http/productApi";
 import { Context } from "../index";
 
 const Shop = observer(() => {
@@ -14,7 +13,6 @@ const Shop = observer(() => {
 
   useEffect(() => {
     fetchCategories().then((data) => product.setCategories(data));
-    fetchMarks().then((data) => product.setMarks(data));
     product.fetchProducts();
   }, [product]);
 
@@ -27,7 +25,6 @@ const Shop = observer(() => {
             <CategoryBar />
           </Col>
           <Col md={10}>
-            <MarkBar />
             <ProductList />
           </Col>
         </Row>

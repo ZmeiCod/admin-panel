@@ -3,11 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import { Button, Dropdown, Form } from "react-bootstrap";
 import { Context } from "../../index";
 import { observer } from "mobx-react-lite";
-import {
-  createProduct,
-  fetchCategories,
-  fetchMarks,
-} from "../../http/productApi";
+import { createProduct, fetchCategories } from "../../http/productApi";
 
 const CreateProduct = observer(({ show, onHide }) => {
   const product = useContext(Context).product;
@@ -15,23 +11,29 @@ const CreateProduct = observer(({ show, onHide }) => {
   const [name, setName] = useState("");
   const [image, setImage] = useState(null);
   const [article, setArticle] = useState(0);
+  const [article40, setArticle40] = useState(0);
   const [price, setPrice] = useState(0);
+  const [price40, setPrice40] = useState(0);
   const [description, setDescription] = useState("");
-  const [weight, setWeight] = useState("");
+  const [weight, setWeight] = useState(0);
+  const [weight40, setWeight40] = useState(0);
 
   useEffect(() => {
-    fetchMarks().then((data) => product.setMarks(data));
     fetchCategories().then((data) => product.setCategories(data));
-  }, []);
+  }, [product]);
 
   const addProduct = () => {
     const formData = new FormData();
     formData.append("name", name);
     formData.append("image", image);
     formData.append("article", `${article}`);
+
+    formData.append("article40", `${article40}`);
+    formData.append("price40", `${price40}`);
+    formData.append("weight40", `${weight40}`);
+
     formData.append("price", `${price}`);
     formData.append("categoryId", product.selectedCategory.id);
-    formData.append("markId", product.selectedMark.id);
     formData.append("description", description);
     formData.append("weight", weight);
 
@@ -59,6 +61,12 @@ const CreateProduct = observer(({ show, onHide }) => {
             placeholder="Введите вес блюда"
           />
           <Form.Control
+            onChange={(e) => setWeight40(e.target.value)}
+            className="mt-3"
+            type="number"
+            placeholder="Введите дополнительный вес блюда (пицца 40 см)"
+          />
+          <Form.Control
             onChange={(e) => setImage(e.target.files[0])}
             className="mt-3"
             type="file"
@@ -70,10 +78,22 @@ const CreateProduct = observer(({ show, onHide }) => {
             placeholder="Введите артикул"
           />
           <Form.Control
+            onChange={(e) => setArticle40(Number(e.target.value))}
+            className="mt-3"
+            type="number"
+            placeholder="Введите дополнительный артикул (пицца 40 см)"
+          />
+          <Form.Control
             onChange={(e) => setPrice(Number(e.target.value))}
             className="mt-3"
             type="number"
             placeholder="Введите цену"
+          />
+          <Form.Control
+            onChange={(e) => setPrice40(Number(e.target.value))}
+            className="mt-3"
+            type="number"
+            placeholder="Введите дополнительную цену (пицца 40 см)"
           />
           <Dropdown className="mt-3 mb-2">
             <Dropdown.Toggle>
@@ -86,21 +106,6 @@ const CreateProduct = observer(({ show, onHide }) => {
                   key={category.id}
                 >
                   {category.name}
-                </Dropdown.Item>
-              ))}
-            </Dropdown.Menu>
-          </Dropdown>
-          <Dropdown className="mt-3 mb-2">
-            <Dropdown.Toggle>
-              {product.selectedMark.name || "Выберите метку (В разработке)"}
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              {product.marks.map((mark) => (
-                <Dropdown.Item
-                  onClick={() => product.setSelectedMark(mark)}
-                  key={mark.id}
-                >
-                  {mark.name}
                 </Dropdown.Item>
               ))}
             </Dropdown.Menu>

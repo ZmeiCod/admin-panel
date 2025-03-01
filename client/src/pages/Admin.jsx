@@ -2,16 +2,15 @@ import React, { useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import CreateProduct from "../components/modals/CreateProduct";
 import CreateCategory from "../components/modals/CreateCategory";
-import CreateMark from "../components/modals/CreateMark";
 import CreateCarousel from "../components/modals/CreateCarousel";
 import NavBar from "../components/NavBar";
+import DeletedSlide from "../components/modals/DeletedSlide";
 
 const Admin = () => {
   const [categoryVisible, setCategoryVisible] = useState(false);
   const [productVisible, setProductVisible] = useState(false);
-  const [markVisible, setMarkVisible] = useState(false);
-
   const [carouselVisible, setCarouselVisible] = useState(false);
+  const [deleteSlideVisible, setDeleteSlideVisible] = useState(false);
 
   return (
     <div>
@@ -30,12 +29,6 @@ const Admin = () => {
           Добавить категорию
         </Button>
         <Button
-          className=" admin-page-btn mt-4 p-2"
-          onClick={() => setMarkVisible(true)}
-        >
-          Добавить метку
-        </Button>
-        <Button
           className="admin-page-btn mt-4 p-2"
           onClick={() => setCarouselVisible(true)}
         >
@@ -50,7 +43,6 @@ const Admin = () => {
           show={categoryVisible}
           onHide={() => setCategoryVisible(false)}
         />
-        <CreateMark show={markVisible} onHide={() => setMarkVisible(false)} />
         <CreateCarousel
           show={carouselVisible}
           onHide={() => setCarouselVisible(false)}
@@ -64,17 +56,20 @@ const Admin = () => {
         <Button className="admin-page-btn mt-4 p-2">
           Редактировать метку (В разработке)
         </Button>
-      </Container>
+      </Container> */}
 
       <Container className="d-flex flex-column mt-5">
-        <Button className="admin-page-btn mt-4 p-2">
-          Удалить слайды (В разработке)
+        <Button
+          className="admin-page-btn mt-4 p-2"
+          onClick={() => setDeleteSlideVisible(true)}
+        >
+          Удалить слайды
         </Button>
-        <CreateCarousel
-          show={carouselVisible}
-          onHide={() => setCarouselVisible(false)}
+        <DeletedSlide
+          show={deleteSlideVisible}
+          onHide={() => setDeleteSlideVisible(false)}
         />
-      </Container> */}
+      </Container>
     </div>
   );
 };

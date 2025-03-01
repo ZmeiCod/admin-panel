@@ -1,15 +1,5 @@
 import { $authHost, $host } from "./index";
 
-export const createMark = async (mark) => {
-  const { data } = await $authHost.post("api/mark", mark);
-  return data;
-};
-
-export const fetchMarks = async () => {
-  const { data } = await $host.get("api/mark");
-  return data;
-};
-
 export const createCategory = async (category) => {
   const { data } = await $authHost.post("api/category", category);
   return data;

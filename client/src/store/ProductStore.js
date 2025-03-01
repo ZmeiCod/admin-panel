@@ -3,19 +3,15 @@ import { fetchProducts } from "../http/productApi";
 
 export default class ProductStore {
   constructor() {
-    this._marks = [];
     this._categories = [];
     this._products = [];
 
     this._selectedCategory = {};
-    this._selectedMark = {};
 
     makeAutoObservable(this);
   }
 
-  setMarks(marks) {
-    this._marks = marks;
-  }
+  
 
   setCategories(categories) {
     this._categories = categories;
@@ -25,9 +21,7 @@ export default class ProductStore {
     this._products = products;
   }
 
-  setSelectedMark(mark) {
-    this._selectedMark = mark;
-  }
+ 
 
   setSelectedCategory(category) {
     this._selectedCategory = category;
@@ -40,9 +34,7 @@ export default class ProductStore {
     });
   }
 
-  get marks() {
-    return this._marks;
-  }
+  
 
   get categories() {
     return this._categories;
@@ -50,10 +42,6 @@ export default class ProductStore {
 
   get products() {
     return this._products;
-  }
-
-  get selectedMark() {
-    return this._selectedMark;
   }
 
   get selectedCategory() {

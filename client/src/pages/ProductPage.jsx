@@ -7,16 +7,23 @@ import { fetchOneProduct, deleteProduct } from "../http/productApi";
 import { observer } from "mobx-react-lite";
 import { SHOP_ROUTE } from "../utils/consts";
 
-const ProductPage = observer((onHide) => {
+const ProductPage = observer(() => {
   const [product, setProduct] = useState({ info: [] });
   const { id } = useParams();
-  const history = useNavigate();
+  const navigate = useNavigate();
+
+  const confirmDeleteProduct = () => {
+    const confirmDelete = window.confirm("Вы уверены, что хотите удалить этот продукт?");
+    if (confirmDelete) {
+      delProduct();
+    }
+  };
 
   const delProduct = () => {
     deleteProduct(id)
       .then((data) => {
         console.log("Продукт удален");
-        history(SHOP_ROUTE);
+        navigate(SHOP_ROUTE);
       })
       .catch((error) => {
         console.error("Ошибка при удалении продукта: ", error);
@@ -25,7 +32,7 @@ const ProductPage = observer((onHide) => {
 
   useEffect(() => {
     fetchOneProduct(id).then((data) => setProduct(data));
-  }, []);
+  }, [id]);
 
   return (
     <div>
@@ -62,7 +69,7 @@ const ProductPage = observer((onHide) => {
               </Button>
               <Button
                 className="product-page-btn-delete ms-5"
-                onClick={delProduct}
+                onClick={confirmDeleteProduct}
               >
                 Удалить
               </Button>
