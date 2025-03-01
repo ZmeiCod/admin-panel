@@ -7,8 +7,17 @@ const ApiError = require("../error/ApiError");
 class productController {
   async create(req, res, next) {
     try {
-      let { name, price, categoryId, markId, article, description, weight } =
-        req.body;
+      let {
+        name,
+        price,
+        categoryId,
+        article,
+        description,
+        weight,
+        article40,
+        price40,
+        weight40,
+      } = req.body;
       const { image } = req.files;
 
       let fileName = uuid() + ".jpg";
@@ -18,11 +27,13 @@ class productController {
         name,
         price,
         categoryId,
-        markId,
         image: fileName,
         article,
         description,
         weight,
+        article40,
+        price40,
+        weight40,
       });
 
       return res.json(product);
@@ -32,16 +43,12 @@ class productController {
   }
 
   async getAll(req, res) {
-    let { categoryId, markId } = req.query;
+    let { categoryId} = req.query;
     let products;
     const whereConditions = {};
 
     if (categoryId) {
       whereConditions.categoryId = categoryId;
-    }
-
-    if (markId) {
-      whereConditions.markId = markId;
     }
 
     products = await Product.findAndCountAll({
@@ -65,11 +72,13 @@ class productController {
       name,
       price,
       categoryId,
-      markId,
       image: fileName,
       article,
       description,
       weight,
+      article40,
+      price40,
+      weight40,
     } = req.body;
 
     try {
@@ -78,11 +87,13 @@ class productController {
           name,
           price,
           categoryId,
-          markId,
           image: fileName,
           article,
           description,
           weight,
+          article40,
+          price40,
+          weight40,
         },
         { where: { id } }
       );
@@ -101,34 +112,33 @@ class productController {
   async delete(req, res) {
     const { id } = req.params;
     try {
-      const product = await Product.findOne({ where: { id } });
-      const deletedCount = await Product.destroy({ where: { id } });
-      const imagePath = path.resolve(__dirname, "..", "static", product.image);
-
-      if (!product) {
-        return res.status(404).json({ message: "Продукт не найден" });
-      }
-
-      fs.unlink(imagePath, (err) => {
-        if (err) {
-          console.error("Ошибка при удалении файла: ", err);
-          return res
-            .status(500)
-            .json({ message: "Ошибка при удалении изображения" });
+        const product = await Product.findOne({ where: { id } });
+        
+        if (!product) {
+            return res.status(404).json({ message: "Продукт не найден" });
         }
 
-        console.log("Изображение успешно удалено");
-      });
+        const deletedCount = await Product.destroy({ where: { id } });
+        const imagePath = path.resolve(__dirname, "..", "static", product.image);
+        
+        fs.unlink(imagePath, (err) => {
+            if (err) {
+                console.error("Ошибка при удалении файла: ", err);
+                return res.status(500).json({ message: "Ошибка при удалении изображения" });
+            }
+            console.log("Блюдо успешно удалено");
+        });
 
-      if (deletedCount === 0) {
-        return res.status(404).json({ message: "Продукт не найден" });
-      }
-      return res.status(204).send();
+        if (deletedCount === 0) {
+            return res.status(404).json({ message: "Продукт не найден" });
+        }
+        
+        return res.status(204).send(); // Успешно удалено
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({ message: "Ошибка при удалении продукта" });
+        console.error("Ошибка при удалении продукта", error);
+        return res.status(500).json({ message: "Ошибка при удалении продукта" });
     }
-  }
+}
 }
 
 module.exports = new productController();

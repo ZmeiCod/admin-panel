@@ -22,14 +22,10 @@ const Product = sequelize.define("product", {
   price: { type: DataTypes.INTEGER, allowNull: false },
   description: { type: DataTypes.STRING, allowNull: false },
   weight: { type: DataTypes.INTEGER, allowNull: false },
-});
-
-const Addition = sequelize.define("addition", {
-  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  article: { type: DataTypes.INTEGER, unique: true },
-  image: { type: DataTypes.STRING, allowNull: false },
-  price: { type: DataTypes.INTEGER, allowNull: false },
-  weight: { type: DataTypes.INTEGER, allowNull: false },
+  
+  article40: { type: DataTypes.INTEGER, allowNull: true }, // Изменено на allowNull: true
+  price40: { type: DataTypes.INTEGER, allowNull: true }, // Изменено на allowNull: true
+  weight40: { type: DataTypes.INTEGER, allowNull: true }, // Изменено на allowNull: true
 });
 
 const Category = sequelize.define("category", {
@@ -38,33 +34,13 @@ const Category = sequelize.define("category", {
   image: { type: DataTypes.STRING, allowNull: false },
 });
 
-const Mark = sequelize.define("mark", {
-  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  name: { type: DataTypes.STRING, unique: true, allowNull: false },
-});
-
-const CategoryMark = sequelize.define("category_mark", {
-  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-});
 
 Category.hasMany(Product);
 Product.belongsTo(Category);
 
-Mark.hasMany(Product);
-Product.belongsTo(Mark);
-
-Addition.belongsTo(Product, { foreignKey: "productId" });
-Product.hasMany(Addition, { foreignKey: "productId" });
-
-Mark.belongsToMany(Category, { through: CategoryMark });
-Category.belongsToMany(Mark, { through: CategoryMark });
-
 module.exports = {
   User,
   Product,
-  Mark,
   Category,
-  CategoryMark,
-  Addition,
   Carousel,
 };
