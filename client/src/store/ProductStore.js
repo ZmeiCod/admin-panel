@@ -11,8 +11,6 @@ export default class ProductStore {
     makeAutoObservable(this);
   }
 
-  
-
   setCategories(categories) {
     this._categories = categories;
   }
@@ -20,8 +18,6 @@ export default class ProductStore {
   setProducts(products) {
     this._products = products;
   }
-
- 
 
   setSelectedCategory(category) {
     this._selectedCategory = category;
@@ -33,8 +29,6 @@ export default class ProductStore {
       this.setProducts(data.rows);
     });
   }
-
-  
 
   get categories() {
     return this._categories;

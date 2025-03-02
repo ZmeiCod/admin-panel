@@ -6,8 +6,10 @@ import { useParams } from "react-router-dom";
 import { fetchOneProduct, deleteProduct } from "../http/productApi";
 import { observer } from "mobx-react-lite";
 import { SHOP_ROUTE } from "../utils/consts";
+import UpdateProduct from "../components/modals/UpdateProduct";
 
 const ProductPage = observer(() => {
+  const [updateVisible, setUpdateVisible] = useState(false);
   const [product, setProduct] = useState({ info: [] });
   const { id } = useParams();
   const navigate = useNavigate();
@@ -64,8 +66,8 @@ const ProductPage = observer(() => {
               </h3>
             </div>
             <Row xs="auto" className="m-3">
-              <Button className="product-page-btn">
-                Изменить (В разработке)
+              <Button className="product-page-btn" onClick={() => setUpdateVisible(true)}>
+                Изменить
               </Button>
               <Button
                 className="product-page-btn-delete ms-5"
@@ -76,6 +78,10 @@ const ProductPage = observer(() => {
             </Row>
           </Col>
         </Row>
+        <UpdateProduct
+          show={updateVisible}
+          onHide={() => setUpdateVisible(false)}
+        />
       </Container>
     </div>
   );

@@ -6,13 +6,15 @@ import { useNavigate } from "react-router-dom";
 import { SHOP_ROUTE } from "../../utils/consts";
 
 const DeletedSlide = ({ show, onHide }) => {
-const api = process.env.REACT_APP_API_URL;
+  const api = process.env.REACT_APP_API_URL;
   const [slideName, setSlideName] = useState("");
 
   const navigate = useNavigate();
 
   const confirmDeleteSlide = async () => {
-    const confirmDelete = window.confirm("Вы уверены, что хотите удалить этот слайд?");
+    const confirmDelete = window.confirm(
+      "Вы уверены, что хотите удалить этот слайд?"
+    );
     if (confirmDelete) {
       await delProduct();
     }
@@ -20,18 +22,18 @@ const api = process.env.REACT_APP_API_URL;
 
   const getSlideIdByName = async (name) => {
     try {
-        const response = await fetch(`${api}api/carousel`);
-        if (!response.ok) {
-            throw new Error("Ошибка при получении слайдов");
-        }
-        const slides = await response.json();
+      const response = await fetch(`${api}api/carousel`);
+      if (!response.ok) {
+        throw new Error("Ошибка при получении слайдов");
+      }
+      const slides = await response.json();
 
-        const slide = slides.find(slide => slide.name === name);
+      const slide = slides.find((slide) => slide.name === name);
 
-        return slide ? slide.id : null;
+      return slide ? slide.id : null;
     } catch (error) {
-        console.error("Ошибка при поиске слайда по имени: ", error);
-        return null;
+      console.error("Ошибка при поиске слайда по имени: ", error);
+      return null;
     }
   };
 

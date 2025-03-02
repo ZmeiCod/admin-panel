@@ -10,6 +10,22 @@ export const fetchCategories = async () => {
   return data;
 };
 
+export const fetchOneCategory = async (id) => {
+  const { data } = await $host.get("api/category/" + id);
+  return data;
+};
+
+export const updateCategory = async (id, formData) => {
+  const { data } = await $authHost.put(`api/category/${id}`, formData);
+  return data;
+};
+
+export const deleteCategory = async (id) => {
+  const { data } = await $authHost.delete(`api/category/${id}`);
+  return data;
+};
+
+
 export const createProduct = async (product) => {
   const { data } = await $authHost.post("api/product", product);
   return data;
@@ -33,6 +49,11 @@ export const fetchOneProduct = async (id) => {
   const { data } = await $host.get("api/product/" + id);
   return data;
 };
+
+export const updateProduct  = async (id, formData) => {
+  const { data } = await $authHost.put(`api/product/${id}`, formData);
+  return data;
+}
 
 /////
 export const createCarousel = async (carousel) => {

@@ -5,12 +5,16 @@ import CreateCategory from "../components/modals/CreateCategory";
 import CreateCarousel from "../components/modals/CreateCarousel";
 import NavBar from "../components/NavBar";
 import DeletedSlide from "../components/modals/DeletedSlide";
+import DeletedCategory from "../components/modals/DeletedCategory";
+import UpdateCategory from "../components/modals/UpdateCategory";
 
 const Admin = () => {
   const [categoryVisible, setCategoryVisible] = useState(false);
   const [productVisible, setProductVisible] = useState(false);
   const [carouselVisible, setCarouselVisible] = useState(false);
   const [deleteSlideVisible, setDeleteSlideVisible] = useState(false);
+  const [deleteCategoryVisible, setDeleteCategoryVisible] = useState(false);
+  const [updateCategoryVisible, setUpdateCategoryVisible] = useState(false);
 
   return (
     <div>
@@ -49,16 +53,24 @@ const Admin = () => {
         />
       </Container>
 
-      {/* <Container className="d-flex flex-column mt-5">
-        <Button className="admin-page-btn mt-4 p-2">
-          Редактировать категорию (В разработке)
+      <Container className="d-flex flex-column mt-5">
+        <Button
+          className="admin-page-btn mt-4 p-2"
+          onClick={() => setUpdateCategoryVisible(true)}
+        >
+          Изменить категорию
         </Button>
-        <Button className="admin-page-btn mt-4 p-2">
-          Редактировать метку (В разработке)
-        </Button>
-      </Container> */}
+        <UpdateCategory show={updateCategoryVisible}
+          onHide={() => setUpdateCategoryVisible(false)}/>
+      </Container>
 
       <Container className="d-flex flex-column mt-5">
+        <Button
+          className="admin-page-btn mt-4 p-2"
+          onClick={() => setDeleteCategoryVisible(true)}
+        >
+          Удалить категорию
+        </Button>
         <Button
           className="admin-page-btn mt-4 p-2"
           onClick={() => setDeleteSlideVisible(true)}
@@ -68,6 +80,10 @@ const Admin = () => {
         <DeletedSlide
           show={deleteSlideVisible}
           onHide={() => setDeleteSlideVisible(false)}
+        />
+        <DeletedCategory
+          show={deleteCategoryVisible}
+          onHide={() => setDeleteCategoryVisible(false)}
         />
       </Container>
     </div>
