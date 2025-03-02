@@ -35,7 +35,6 @@ class productController {
         price40,
         weight40,
       });
-
       return res.json(product);
     } catch (e) {
       next(ApiError.badRequest(e.message));
@@ -43,7 +42,7 @@ class productController {
   }
 
   async getAll(req, res) {
-    let { categoryId} = req.query;
+    let { categoryId } = req.query;
     let products;
     const whereConditions = {};
 
@@ -72,7 +71,6 @@ class productController {
       name,
       price,
       categoryId,
-      image: fileName,
       article,
       description,
       weight,
@@ -80,65 +78,95 @@ class productController {
       price40,
       weight40,
     } = req.body;
-
+  
+    let image = null;
+    if (req.files && req.files.image) {
+      image = req.files.image;
+    }
+  
     try {
-      const [updated] = await Category.update(
-        {
-          name,
-          price,
-          categoryId,
-          image: fileName,
-          article,
-          description,
-          weight,
-          article40,
-          price40,
-          weight40,
-        },
-        { where: { id } }
-      );
-
-      if (!updated) {
+      const product = await Product.findOne({ where: { id } });
+  
+      if (!product) {
         return res.status(404).json({ message: "Продукт не найден" });
       }
+  
+      if (image) {
+        const oldImagePath = path.resolve(
+          __dirname,
+          "..",
+          "static",
+          product.image
+        );
+  
+        fs.unlink(oldImagePath, (err) => {
+          if (err) {
+            console.error("Ошибка при удалении старого изображения: ", err);
+          } else {
+            console.log("Старое изображение успешно удалено");
+          }
+        });
+  
+        const fileName = uuid() + ".jpg";
+        await image.mv(path.resolve(__dirname, "..", "static", fileName));
+        product.image = fileName;
+      }
 
-      const updatedCategory = await Category.findOne({ where: { id } });
-      return res.json(updatedCategory);
+      product.name = name || product.name;
+      product.price = price || product.price;
+      product.categoryId = categoryId || product.categoryId;
+      product.article = article || product.article;
+      product.description = description || product.description;
+      product.weight = weight || product.weight;
+      product.article40 = article40 || product.article40;
+      product.price40 = price40 || product.price40;
+      product.weight40 = weight40 || product.weight40;
+  
+      console.log("Обновленный объект продукта: ", product);
+  
+      await product.save();
+  
+      return res.status(200).json(product);
     } catch (error) {
-      return res.status(400).json({ message: error.message });
+      console.error("Ошибка при обновлении продукта", error);
+      return res
+        .status(500)
+        .json({ message: "Ошибка при обновлении продукта" });
     }
   }
 
   async delete(req, res) {
     const { id } = req.params;
     try {
-        const product = await Product.findOne({ where: { id } });
-        
-        if (!product) {
-            return res.status(404).json({ message: "Продукт не найден" });
-        }
+      const product = await Product.findOne({ where: { id } });
 
-        const deletedCount = await Product.destroy({ where: { id } });
-        const imagePath = path.resolve(__dirname, "..", "static", product.image);
-        
-        fs.unlink(imagePath, (err) => {
-            if (err) {
-                console.error("Ошибка при удалении файла: ", err);
-                return res.status(500).json({ message: "Ошибка при удалении изображения" });
-            }
-            console.log("Блюдо успешно удалено");
-        });
+      if (!product) {
+        return res.status(404).json({ message: "Продукт не найден" });
+      }
 
-        if (deletedCount === 0) {
-            return res.status(404).json({ message: "Продукт не найден" });
+      const deletedCount = await Product.destroy({ where: { id } });
+      const imagePath = path.resolve(__dirname, "..", "static", product.image);
+
+      fs.unlink(imagePath, (err) => {
+        if (err) {
+          console.error("Ошибка при удалении файла: ", err);
+          return res
+            .status(500)
+            .json({ message: "Ошибка при удалении изображения" });
         }
-        
-        return res.status(204).send(); // Успешно удалено
+        console.log("Блюдо успешно удалено");
+      });
+
+      if (deletedCount === 0) {
+        return res.status(404).json({ message: "Продукт не найден" });
+      }
+
+      return res.status(204).send();
     } catch (error) {
-        console.error("Ошибка при удалении продукта", error);
-        return res.status(500).json({ message: "Ошибка при удалении продукта" });
+      console.error("Ошибка при удалении продукта", error);
+      return res.status(500).json({ message: "Ошибка при удалении продукта" });
     }
-}
+  }
 }
 
 module.exports = new productController();

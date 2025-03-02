@@ -23,9 +23,9 @@ const Product = sequelize.define("product", {
   description: { type: DataTypes.STRING, allowNull: false },
   weight: { type: DataTypes.INTEGER, allowNull: false },
   
-  article40: { type: DataTypes.INTEGER, allowNull: true }, // Изменено на allowNull: true
-  price40: { type: DataTypes.INTEGER, allowNull: true }, // Изменено на allowNull: true
-  weight40: { type: DataTypes.INTEGER, allowNull: true }, // Изменено на allowNull: true
+  article40: { type: DataTypes.INTEGER, allowNull: true },
+  price40: { type: DataTypes.INTEGER, allowNull: true },
+  weight40: { type: DataTypes.INTEGER, allowNull: true },
 });
 
 const Category = sequelize.define("category", {
@@ -33,7 +33,6 @@ const Category = sequelize.define("category", {
   name: { type: DataTypes.STRING, unique: true, allowNull: false },
   image: { type: DataTypes.STRING, allowNull: false },
 });
-
 
 Category.hasMany(Product);
 Product.belongsTo(Category);
